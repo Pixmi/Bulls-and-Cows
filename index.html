@@ -14,26 +14,20 @@
 
 <body class="p-3">
     <div class="container">
-        <div class="row mb-3">
+        <div class="row">
             <div class="col-12">
                 <h4>遊戲規則:</h4>
                 <p>請在0到9的數字中，分別選擇3個不同數字。</p>
             </div>
-            <div class="col-auto">
-                <button type="button" id="iStartGame" class="btn btn-primary" onclick="cancelGame();">遊戲開始</button>
-            </div>
-            <div class="col-auto">
-                <button type="button" id="iCancelGame" class="btn btn-danger" onclick="cancelGame();" style="display:none">重開一場遊戲</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
+            <div class="col-6">
+                <div class="d-flex gap-3 mb-3">
+                    <button type="button" id="iStartGame" class="btn btn-primary" onclick="cancelGame();">遊戲開始</button>
+                    <button type="button" id="iCancelGame" class="btn btn-danger d-none" onclick="cancelGame();">重開一場遊戲</button>
+                </div>
                 <h3 id="out"></h3>
             </div>
-        </div>
-        <div class="row g-3" id="answerblock" style="display:none">
-            <div class="col">
-                <div class="card">
+            <div class="col-6" id="answerblock" style="display:none">
+                <div class="card mb-3">
                     <div class="card-body">
                         <div class="card-title">位置和數字全部符合的數量數字</div>
                         <form name="AAA" id="AAA">
@@ -52,33 +46,29 @@
                         </form>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-body">
                         <div class="card-title">位置不同但答案裡有的數字數量</div>
                         <form name="BBB" id="BBB">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="A_answer" id="B_r1" value="0" checked>
+                                <input class="form-check-input" type="radio" name="B_answer" id="B_r1" value="0" checked>
                                 <label class="form-check-label" for="B_r1">0B</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="A_answer" id="B_r2" value="1">
+                                <input class="form-check-input" type="radio" name="B_answer" id="B_r2" value="1">
                                 <label class="form-check-label" for="B_r2">1B</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="A_answer" id="B_r3" value="2">
+                                <input class="form-check-input" type="radio" name="B_answer" id="B_r3" value="2">
                                 <label class="form-check-label" for="B_r3">2B</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="A_answer" id="B_r4" value="2">
+                                <input class="form-check-input" type="radio" name="B_answer" id="B_r4" value="2">
                                 <label class="form-check-label" for="B_r4">3B</label>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
                 <button type="button" class="btn btn-dark" onclick="answer()">確認</button>
             </div>
         </div>
@@ -113,7 +103,7 @@
                 }
             }
 
-            iCancelGame.style.display = "block";
+            iCancelGame.classList.remove('d-none');
         }
         function ask() {
             let i;
@@ -258,7 +248,7 @@
         }
 
         function cancelGame() {
-            iCancelGame.style.display = "none";
+            iCancelGame.classList.add('d-none');
             prepare();
             ask();
             document.getElementById("A_r1").checked = true;
