@@ -97,7 +97,7 @@
         let randNum;  //裝亂數，隨機從答案庫裡面拿答案 
 
         function prepare() {
-            output.innerHTML = "";
+            output.innerHTML = '';
 
             let i, tmp, unit_1, unit_10, unit_100;
             remain = 720;
@@ -125,29 +125,29 @@
         function ask() {
             let i;
             let j;
-            let printNum = "";
-            let printRemainNum = "";
+            let printNum = '';
+            let printRemainNum = '';
 
             if (remain == 1) {
                 for (j = 0; j < 3; j++)
                     printRemainNum += answerBase[0][j];
 
-                output.innerHTML += "謎題全部解開了。<br>我賭上我爺爺的名譽就是";
-                output.innerHTML += "<font color=red>" + printRemainNum + "</font><br>"
+                output.innerHTML += '謎題全部解開了。<br>我賭上我爺爺的名譽就是';
+                output.innerHTML += '<font color=red>' + printRemainNum + '</font><br>'
                 form.dataset.status = 'ready';
                 isOver = 1;
                 return;
             }
 
             if (remain <= 3) {
-                output.innerHTML += "可能解:";
+                output.innerHTML += '可能解:';
                 for (i = 0; i < remain; i++) {
                     for (j = 0; j < 3; j++)
                         printRemainNum += answerBase[i][j];
                     if (i < remain - 1)
-                        printRemainNum += ", "
+                        printRemainNum += ', '
                 }
-                output.innerHTML += "<font color=black>" + printRemainNum + "</font><br><br>";
+                output.innerHTML += '<font color=black>' + printRemainNum + '</font><br><br>';
 
             }
             while (1 == 1) {
@@ -161,7 +161,7 @@
             for (i = 0; i < 3; i++)
                 printNum += answerBase[randNum][i];
 
-            output.innerHTML += " 我猜: <font color=red>" + printNum + "</font><br>";
+            output.innerHTML += ' 我猜: <font color=red>' + printNum + '</font><br>';
             form.dataset.status = 'start';
         }
 
@@ -181,7 +181,7 @@
                         a = parseInt(tempA);
                         right = 1;
                     }
-                    else alert("輸入錯誤");
+                    else alert('輸入錯誤');
                     break;
                 } while (!right);
                 do {  //取得b值
@@ -194,27 +194,27 @@
                         b = parseInt(tempB);
                         right = 1;
                     }
-                    else alert("輸入錯誤");
+                    else alert('輸入錯誤');
                     break;
                 } while (!right);
 
                 if (a + b > 3) {  //如果a和b相加大於3當然就錯啦～ 
-                    alert("輸入錯誤");
+                    alert('輸入錯誤');
                     right = 0;
                     break;
                 }
             } while (!right);
 
             tempA = tempB = 0;
-            output.innerHTML += "..." + a + "A" + b + "B<br><font size=-2><br></font>"
+            output.innerHTML += '...' + a + 'A' + b + 'B<br><font size=-2><br></font>'
 
             if (a == 3) {
-                output.innerHTML += "輸入3A你時間真的也蠻多的XD<br>";
+                output.innerHTML += '輸入3A你時間真的也蠻多的XD<br>';
                 form.dataset.status = 'ready';
                 isOver = 1;
             }
-            else if (remain == 1) {  //如果答案庫只剩一個答案，但是這答案還是錯的，就是玩家作弊！
-                output.innerHTML += "這一定哪裡有什麼誤會<br>";
+            else if (remain == 1) {  //如果答案庫只剩一個答案，但是這答案還是錯的，那玩家有輸入錯
+                output.innerHTML += '這一定哪裡有什麼誤會<br>';
                 form.dataset.status = 'ready';
                 isOver = 1;
             }
@@ -253,8 +253,8 @@
                     i--;
                 }
             }
-            if (remain == 0) {  //發現沒有答案符合玩家想的數字，就是玩家作弊！
-                output.innerHTML += "你應該是輸入錯誤...重來吧<br>";
+            if (remain == 0) {  //發現沒有答案符合玩家想的數字，那玩家有輸入錯
+                output.innerHTML += '你應該是輸入錯誤...重來吧<br>';
                 isOver = 1;
             }
         }
