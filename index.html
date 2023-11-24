@@ -10,25 +10,38 @@
     <meta name="application-name" content="Bulls and Cows (1A2B)">
     <meta name="description" content="由電腦猜數字的小遊戲">
     <meta name="application-url" content="https://1a2b.pixmi.app">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        form {
+            max-width: 640px !important;
+            margin-top: 1rem;
+        }
+        [data-display="start"] {
+            opacity: 0;
+        }
+        form[data-status="start"] [data-display="start"] {
+            opacity: 1;
+        }
+    </style>
 </head>
 
-<body class="p-3">
-    <div class="container">
+<body>
+    <form class="container" name="panel" data-status="ready">
         <div class="row">
-            <div class="col-12">
+            <div class="col">
                 <h4>Bulls and Cows (1A2B)</h4>
                 <p>按下開始讓電腦來猜你的數字。</p>
             </div>
-            <div class="col-6">
-                <div class="d-flex gap-3 mb-3">
-                    <button type="button" id="btnStartGame" class="btn btn-primary" onclick="start();">遊戲開始</button>
-                </div>
-                <h3 id="out"></h3>
+            <div class="col-auto">
+                <button type="reset" name="reset" class="btn btn-primary mt-3">Start</button>
             </div>
-            <form class="col-6 d-none" name="panel">
-                <div class="card mb-3">
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <h3 id="output"></h3>
+            </div>
+            <div class="col-6">
+                <div class="card mb-3" data-display="start">
                     <div class="card-body">
                         <div class="card-title">位置和數字全部符合的數量數字</div>
                         <div class="form-check">
@@ -49,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-3">
+                <div class="card mb-3" data-display="start">
                     <div class="card-body">
                         <div class="card-title">位置不同但答案裡有的數字數量</div>
                         <div class="form-check">
@@ -70,13 +83,13 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-dark" onclick="answer()">確認</button>
-            </form>
+                <button type="submit" class="btn btn-dark" data-display="start">Next</button>
+            </div>
         </div>
-    </div>
+    </form>
     <script>
-        const btnStartGame = document.body.querySelector('#btnStartGame');
-        const Form = document.forms.panel;
+        const form = document.forms.panel;
+        const output = form.querySelector('#output');
         let answerBase = new Array(721);
         let isOver, restart;  //當作布林值，判斷是否遊戲結束以及是否要繼續玩
         let remain;  //答案庫裡面的答案數 
@@ -84,7 +97,7 @@
         let randNum;  //裝亂數，隨機從答案庫裡面拿答案 
 
         function prepare() {
-            out.innerHTML = "";
+            output.innerHTML = "";
 
             let i, tmp, unit_1, unit_10, unit_100;
             remain = 720;
@@ -106,7 +119,7 @@
                 }
             }
 
-            btnStartGame.textContent = '重新開局';
+            form.reset.textContent = 'Reset';
         }
 
         function ask() {
@@ -119,22 +132,22 @@
                 for (j = 0; j < 3; j++)
                     printRemainNum += answerBase[0][j];
 
-                out.innerHTML += "謎題全部解開了。<br>我賭上我爺爺的名譽就是";
-                out.innerHTML += "<font color=red>" + printRemainNum + "</font><br>"
-                Form.classList.add('d-none');
+                output.innerHTML += "謎題全部解開了。<br>我賭上我爺爺的名譽就是";
+                output.innerHTML += "<font color=red>" + printRemainNum + "</font><br>"
+                form.dataset.status = 'ready';
                 isOver = 1;
                 return;
             }
 
             if (remain <= 3) {
-                out.innerHTML += "可能解:";
+                output.innerHTML += "可能解:";
                 for (i = 0; i < remain; i++) {
                     for (j = 0; j < 3; j++)
                         printRemainNum += answerBase[i][j];
                     if (i < remain - 1)
                         printRemainNum += ", "
                 }
-                out.innerHTML += "<font color=black>" + printRemainNum + "</font><br><br>";
+                output.innerHTML += "<font color=black>" + printRemainNum + "</font><br><br>";
 
             }
             while (1 == 1) {
@@ -148,8 +161,8 @@
             for (i = 0; i < 3; i++)
                 printNum += answerBase[randNum][i];
 
-            out.innerHTML += " 我猜: <font color=red>" + printNum + "</font><br>";
-            Form.classList.remove('d-none');
+            output.innerHTML += " 我猜: <font color=red>" + printNum + "</font><br>";
+            form.dataset.status = 'start';
         }
 
         function answer() {
@@ -159,9 +172,9 @@
             let tempB;
             do {  //取得a,b值 
                 do {  //取得a值
-                    for (let i = 0; i < Form.bulls.length; i++) {
-                        if (Form.bulls[i].checked) {
-                            tempA = Form.bulls[i].value;
+                    for (let i = 0; i < form.bulls.length; i++) {
+                        if (form.bulls[i].checked) {
+                            tempA = form.bulls[i].value;
                         }
                     }
                     if (tempA.length == 1 && parseInt(tempA) <= 9 && parseInt(tempA) >= 0) {
@@ -172,9 +185,9 @@
                     break;
                 } while (!right);
                 do {  //取得b值
-                    for (let i = 0; i < Form.cows.length; i++) {
-                        if (Form.cows[i].checked) {
-                            tempB = Form.cows[i].value;
+                    for (let i = 0; i < form.cows.length; i++) {
+                        if (form.cows[i].checked) {
+                            tempB = form.cows[i].value;
                         }
                     }
                     if (tempB.length == 1 && parseInt(tempB) <= 9 && parseInt(tempB) >= 0) {
@@ -193,16 +206,16 @@
             } while (!right);
 
             tempA = tempB = 0;
-            out.innerHTML += "..." + a + "A" + b + "B<br><font size=-2><br></font>"
+            output.innerHTML += "..." + a + "A" + b + "B<br><font size=-2><br></font>"
 
             if (a == 3) {
-                out.innerHTML += "輸入3A你時間真的也蠻多的XD<br>";
-                Form.classList.add('d-none');
+                output.innerHTML += "輸入3A你時間真的也蠻多的XD<br>";
+                form.dataset.status = 'ready';
                 isOver = 1;
             }
             else if (remain == 1) {  //如果答案庫只剩一個答案，但是這答案還是錯的，就是玩家作弊！
-                out.innerHTML += "這一定哪裡有什麼誤會<br>";
-                Form.classList.add('d-none');
+                output.innerHTML += "這一定哪裡有什麼誤會<br>";
+                form.dataset.status = 'ready';
                 isOver = 1;
             }
 
@@ -210,8 +223,8 @@
                 think();
             if (!isOver)
                 ask();
-            Form.bulls.value = 0;
-            Form.cows.value = 0;
+            form.bulls.value = 0;
+            form.cows.value = 0;
         }
 
         function think() {
@@ -241,17 +254,23 @@
                 }
             }
             if (remain == 0) {  //發現沒有答案符合玩家想的數字，就是玩家作弊！
-                out.innerHTML += "你應該是輸入錯誤...重來吧<br>";
+                output.innerHTML += "你應該是輸入錯誤...重來吧<br>";
                 isOver = 1;
             }
         }
 
-        function start() {
+        form.addEventListener('submit', (event) => {
+            if (event.preventDefault) event.preventDefault();
+            answer();
+        });
+
+        form.addEventListener('reset', (event) => {
+            if (event.preventDefault) event.preventDefault();
             prepare();
             ask();
-            Form.bulls.value = 0;
-            Form.cows.value = 0;
-        }
+            form.bulls.value = 0;
+            form.cows.value = 0;
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
