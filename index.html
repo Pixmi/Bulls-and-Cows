@@ -133,7 +133,7 @@
                     printRemainNum += answerBase[0][j];
 
                 output.innerHTML += '謎題全部解開了。<br>我賭上我爺爺的名譽就是';
-                output.innerHTML += '<font color=red>' + printRemainNum + '</font><br>'
+                output.innerHTML += `<font color=red>${printRemainNum}</font><br>`
                 form.dataset.status = 'ready';
                 isOver = 1;
                 return;
@@ -147,7 +147,7 @@
                     if (i < remain - 1)
                         printRemainNum += ', '
                 }
-                output.innerHTML += '<font color=black>' + printRemainNum + '</font><br><br>';
+                output.innerHTML += `<font color=black>${printRemainNum}</font><br><br>`;
 
             }
             while (1 == 1) {
@@ -161,7 +161,7 @@
             for (i = 0; i < 3; i++)
                 printNum += answerBase[randNum][i];
 
-            output.innerHTML += ' 我猜: <font color=red>' + printNum + '</font><br>';
+            output.innerHTML += `我猜: <font color=red>${printNum}</font><br>`;
             form.dataset.status = 'start';
         }
 
@@ -206,7 +206,7 @@
             } while (!right);
 
             tempA = tempB = 0;
-            output.innerHTML += '...' + a + 'A' + b + 'B<br><font size=-2><br></font>'
+            output.innerHTML += `...${a}A${b}B<br><font size=-2><br></font>`;
 
             if (a == 3) {
                 output.innerHTML += '輸入3A你時間真的也蠻多的XD<br>';
